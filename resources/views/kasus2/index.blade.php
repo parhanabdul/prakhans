@@ -20,6 +20,7 @@
                         <th scope="col">No</th>
                           <th scope="col"><center>Lokasi</center></th>
                           <th scope="col"><center>Nama Rw</center></th>
+                          <th scope="col"><center>Jumlah Reaktif</center></th>
                           <th scope="col"><center>Jumlah Positif</center></th>
                           <th scope="col"><center>Jumlah Meninggal</center></th>
                           <th scope="col"><center>Jumlah Sembuh</center></th>
@@ -41,6 +42,7 @@
                     </center>
                       </td>
                           <td>{{$data->rw->nama}}</td>
+                          <td>{{$data->jumlah_reaktif}}</td>
                           <td>{{$data->jumlah_positif}}</td>
                           <td>{{$data->jumlah_meninggal}}</td>
                           <td>{{$data->jumlah_sembuh}}</td>
