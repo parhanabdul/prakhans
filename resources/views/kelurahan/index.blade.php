@@ -22,7 +22,7 @@
                         <th scope="col">Kecamatan</th>
                         <th scope="col">Kode Kelurahan</th>
                         <th scope="col">Nama Kelurahan</th>
-                        <th scope="col">Action</th>
+                        <th scope="col"><center>Action</center></th>
                       </tr>
                     </thead>
                     <tbody>
