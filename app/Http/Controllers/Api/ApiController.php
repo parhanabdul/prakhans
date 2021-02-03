@@ -16,23 +16,14 @@ class ApiController extends Controller
                     ->select('kasus2.jumlah_reaktif','kasus2.jumlah_positif','kasus2.jumlah_sembuh','kasus2.jumlah_meninggal')
                     ->join('kasus2','rws.id','=','kasus2.id_rw')
                     ->sum('kasus2.jumlah_positif');
-
-        $sembuh = DB::table('rws')
-                    ->select('kasus2.jumlah_reaktif','kasus2.jumlah_positif','kasus2.jumlah_sembuh',
-                            'kasus2.jumlah_meninggal')
-                    ->join('kasus2','rws.id','=','kasus2.id_rw')
-                    ->sum('kasus2.jumlah_sembuh');
-
-        $meninggal = DB::table('rws')
-                    ->select('kasus2.jumlah_reaktif','kasus2.jumlah_positif','kasus2.jumlah_sembuh',
-                            'kasus2.jumlah_meninggal')
-                    ->join('kasus2','rws.id','=','kasus2.id_rw')
-                    ->sum('kasus2.jumlah_sembuh');
-
-
+        
                     
 
-    }
+     
+
+
+
+}
 
   
     public function create()
@@ -43,7 +34,19 @@ class ApiController extends Controller
  
     public function store(Request $request)
     {
-        //
+        $provinsi = new provinsi();
+        $provinsi->kode_provinsi = $request->kode_provinsi;
+        $provinsi->nama_provinsi = $request->nama_provinsi;
+        $provinsi->save();
+
+        $res = [
+            'success'=> true,
+            'data' => $provinsi,
+            'message' => 'data berhasil di simpan'
+        ];
+
+        return response()->json($res,200);
+    
     }
 
 
