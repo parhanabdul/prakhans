@@ -13,11 +13,14 @@ use App\Htpp\Controllers\Api\ProvinsiController;
 use App\Http\Controllers\Api\ApiController;
 
 
+use Illuminate\Support\Carbon;
+
 class ApiController extends Controller
 {
     
     public function sprovinsi()
     {
+        
         $tampil = DB::table('provinsis')
         ->join('kotas','kotas.id_provinsi','=','provinsis.id')
         ->join('kecamatans','kecamatans.id_kota','=','kotas.id')
@@ -56,7 +59,7 @@ return response()->json($data,200);
 
         $data = [
             'success' => true,
-            'Data Provinsi' => $tampil,
+            'Data Kota' => $tampil,
             'message' => 'Data Kasus Di tampilkan'
         ];
 return response()->json($data,200);
@@ -79,10 +82,10 @@ return response()->json($data,200);
 
         $data = [
             'success' => true,
-            'Data Provinsi' => $tampil,
+            'Data Kecamatan' => $tampil,
             'message' => 'Data Kasus Di tampilkan'
         ];
-return response()->json($data,200);
+    return response()->json($data,200);
 
     }
 
@@ -100,12 +103,89 @@ return response()->json($data,200);
 
         $data = [
             'success' => true,
+            'Data Kelurahan' => $tampil,
+            'message' => 'Data Kasus Di tampilkan'
+        ];
+    return response()->json($data,200);
+
+    }
+
+
+    public function srw()
+    {
+        $tampil = DB::table('kelurahans')
+        ->join('rws','rws.id_kelurahan','=','kelurahans.id')
+        ->join('kasus2s','kasus2s.id_rw','=','rws.id')
+        ->select('nama_kelurahan','kode_kelurahan','nama',
+        DB::raw('sum(kasus2s.jumlah_positif) as jumlah_positif'),
+        DB::raw('sum(kasus2s.jumlah_sembuh) as jumlah_sembuh'),
+        DB::raw('sum(kasus2s.jumlah_meninggal) as jumlah_meninggal'))
+        ->groupBy('nama_kelurahan','kode_kelurahan','nama')
+        ->get();
+
+        $data = [
+            'success' => true,
+            'Data Kelurahan' => $tampil,
+            'message' => 'Data Kasus Di tampilkan'
+        ];
+return response()->json($data,200);
+
+    }
+
+    // MENAMPILKAN DATA SELURUH INDONESIA
+    public function index()
+    {
+        $positif = DB::table('rws')->select('kasus2s.jumlah_positif','kasus2s.jumlah_sembuh','kasus2s.jumlah_meninggal')
+            ->join ('kasus2s','rws.id','=','kasus2s.id_rw')
+            ->sum('kasus2s.jumlah_positif');
+           
+           
+            $sembuh = DB::table('rws')->select('kasus2s.jumlah_positif','kasus2s.jumlah_sembuh','kasus2s.jumlah_meninggal')
+            ->join ('kasus2s','rws.id','=','kasus2s.id_rw')
+            ->sum('kasus2s.jumlah_sembuh');
+
+            $meninggal = DB::table('rws')->select('kasus2s.jumlah_positif','kasus2s.jumlah_sembuh','kasus2s.jumlah_meninggal')
+            ->join ('kasus2s','rws.id','=','kasus2s.id_rw')
+            ->sum('kasus2s.jumlah_meninggal');
+
+
+            $res = [
+                'success' => true,
+                'Data' => 'Data Kasus Indonesia',
+                'jumlah Positif' => $positif,
+                'Jumlah Sembuh' => $sembuh,
+                'jumlah Meninggal' => $meninggal,
+                'message' => 'Data Kasus Di tampilkan'
+            ];
+        return response()->json($res,200);
+    }
+    /// uji coba coba 
+    public function semua()
+    {
+        
+        $tampil = DB::table('provinsis')
+        ->join('kotas','kotas.id_provinsi','=','provinsis.id')
+        ->join('kecamatans','kecamatans.id_kota','=','kotas.id')
+        ->join('kelurahans','kelurahans.id_kecamatan','=','kecamatans.id')
+        ->join('rws','rws.id_kelurahan','=','kelurahans.id')
+        ->join('kasus2s','kasus2s.id_rw','=','rws.id')
+        ->select('kode_provinsi','nama_provinsi','kode_kota','nama_kota','kode_kecamatan','nama_kecamatan',
+                'kode_kelurahan','nama_kelurahan','nama',
+        DB::raw('sum(kasus2s.jumlah_positif) as jumlah_positif'),
+        DB::raw('sum(kasus2s.jumlah_sembuh) as jumlah_sembuh'),
+        DB::raw('sum(kasus2s.jumlah_meninggal) as jumlah_meninggal'))
+        ->groupBy('nama_provinsi')
+        ->get();
+
+        $data = [
+            'success' => true,
             'Data Provinsi' => $tampil,
             'message' => 'Data Kasus Di tampilkan'
         ];
 return response()->json($data,200);
 
     }
+
     
     public function hari(){
    $kasus2 = kasus2::get('created_at')->last();
@@ -157,8 +237,9 @@ return response()->json($data,200);
     public function show($id)
     {
         
-    }
+        
 
+    }
 
     public function edit($id)
     {

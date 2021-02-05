@@ -10,16 +10,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProvinsiController;
 use App\Http\Controllers\Api\ApiController;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -35,10 +26,14 @@ Route::delete('provinsi/{id}',[ProvinsiController::class, 'destroy']);
 //API KASUS2
 Route::get('kasus2/{id}',[ApiController::class, 'show']);
 Route::get('hari',[ApiController::class, 'hari']);
+Route::get('indonesia',[ApiController::class, 'index']);
 Route::get('kasus2',[ApiController::class, 'index']);
 Route::get('sprovinsi',[ApiController::class, 'sprovinsi']);
 Route::get('sprovinsi/kota',[ApiController::class, 'skota']);
 Route::get('sprovinsi/kota/kecamatan',[ApiController::class, 'skecamatan']);
-Route::get('sprovinsi/kota/kecamatan/kelurahan/hari',[ApiController::class, 'skelurahan']);
-Route::get('sprovinsi/{id}',[ApiController::class, 'dprovinsi']);
+Route::get('sprovinsi/kota/kecamatan/kelurahan',[ApiController::class, 'skelurahan']);
+Route::get('sprovinsi/kota/kecamatan/kelurahan/rw',[ApiController::class, 'srw']);
 
+
+//semua data nampil
+Route::get('sprovinsi/semua',[ApiController::class, 'semua']);
