@@ -11,13 +11,27 @@ use App\Models\provinsi;
 use App\Models\Kasus2;
 use App\Htpp\Controllers\Api\ProvinsiController;
 use App\Http\Controllers\Api\ApiController;
+use Illuminate\Support\Facades\Http;
 
 
 use Illuminate\Support\Carbon;
 
 class ApiController extends Controller
 {
-    
+    /// data global
+    public function global(){
+        $url = Http::get('https://api.kawalcorona.com/')->json();
+        $data = [
+            'success' => true,
+            'data'    => $url,
+            'message' => 'Menampilkan Global'
+        ];
+        return response()->json($data, 200);
+    }
+
+
+
+
     public function sprovinsi()
     {
         
@@ -132,7 +146,7 @@ return response()->json($data,200);
 
     }
 
-    // MENAMPILKAN DATA SELURUH INDONESIA
+    // MENAMPILKAN DATA kasus SELURUH INDONESIA
     public function index()
     {
         $positif = DB::table('rws')->select('kasus2s.jumlah_positif','kasus2s.jumlah_sembuh','kasus2s.jumlah_meninggal')

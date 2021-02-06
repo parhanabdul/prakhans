@@ -37,3 +37,5 @@ Route::get('sprovinsi/kota/kecamatan/kelurahan/rw',[ApiController::class, 'srw']
 
 //semua data nampil
 Route::get('sprovinsi/semua',[ApiController::class, 'semua']);
+// data global
+Route::get('global',[ApiController::class, 'global']);
