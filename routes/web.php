@@ -15,7 +15,11 @@ Route::get('dashboard',function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\WelcomeController::class, 'index'])->name('home');
+
+//FRONTEND
+use App\Http\Controllers\frontandController;
+Route::resource('/welcome',frontandController::class);
 
 use App\Http\Controllers\ProvinsiController;
 Route::resource('provinsi', ProvinsiController::class);
